@@ -4,7 +4,8 @@
     summary-fixed>
     <template #headerCell="{ title, column }">
       <div>{{ title }}</div>
-      <el-input v-if="column.dataIndex === 'id'" v-model="query.id" placeholder="" clearable />
+      <Input v-if="column.dataIndex === 'id'" v-model:value="query.id" placeholder="" />
+      <el-input v-if="column.dataIndex === 'age'" v-model="query.age" placeholder="" clearable />
 
     </template>
   </s-table>
@@ -13,9 +14,11 @@
 <script setup>
 import '@surely-vue/table/dist/index.css';
 import STable from '@surely-vue/table';
+import { Input } from 'ant-design-vue'
 
 const query = ref({
   id: '',
+  age: '',
 })
 const tableData = []
 const columns = [

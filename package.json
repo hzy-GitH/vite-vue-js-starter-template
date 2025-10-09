@@ -30,6 +30,7 @@
   "dependencies": {
     "@surely-vue/table": "^5.0.8",
     "@vueuse/core": "^13.3.0",
+    "ant-design-vue": "^4.2.6",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
     "element-plus": "^2.11.4",

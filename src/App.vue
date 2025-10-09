@@ -1,84 +1,59 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <s-table rowKey="id" :data-source="tableData" :columns="columns" :scroll="{ y: 600 }" autoHeaderHeight xVirtual
+    rangeSelection :pagination="false" ignoreCellKey bordered :animateRows="false" :showSorterTooltip="false"
+    summary-fixed>
+    <template #headerCell="{ title, column }">
+      <div>{{ title }}</div>
+      <el-input v-if="column.dataIndex === 'id'" v-model="query.id" placeholder="" clearable />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/pinia">Pinia</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    </template>
+  </s-table>
 </template>
 
-<style scoped>
-header {
-  max-height: 100vh;
-  line-height: 1.5;
-}
+<script setup>
+import '@surely-vue/table/dist/index.css';
+import STable from '@surely-vue/table';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  margin-top: 2rem;
-  font-size: 12px;
-  text-align: center;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (width >= 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+const query = ref({
+  id: '',
+})
+const tableData = []
+const columns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    align: "center",
+    ellipsis: true,
+    resizable: true,
+    width: 200,
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    align: "center",
+    ellipsis: true,
+    resizable: true,
+    width: 200,
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    align: "center",
+    ellipsis: true,
+    resizable: true,
+    width: 500,
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    align: "center",
+    ellipsis: true,
+    resizable: true,
+    width: 500,
   }
+]
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
-  header .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    place-items: flex-start;
-  }
+</script>
 
-  nav {
-    padding: 1rem 0;
-    margin-top: 1rem;
-    margin-left: -1rem;
-    font-size: 1rem;
-    text-align: left;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

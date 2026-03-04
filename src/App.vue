@@ -1,6 +1,6 @@
 <template>
   <s-table ref="tableRef" rowKey="rowKey" :data-source="tableData" :columns="columns" :scroll="{ y: 600 }" autoHeaderHeight xVirtual
-    rangeSelection :pagination="false" ignoreCellKey bordered :animateRows="false" :showSorterTooltip="false"
+    :rangeSelection="true" :pagination="false" ignoreCellKey bordered :animateRows="false" :showSorterTooltip="false"
     summary-fixed @cellClick="handleRowClick"	@cellKeydown="cellKeydown">
     <template #headerCell="{ title, column }">
       <div>{{ title }}</div>
@@ -87,6 +87,8 @@ const handleRowClick = (event, params) => {
 
 	activeKey.value = params.column.dataIndex;
 
+  	// 强制刷新, 使得高亮列生效
+	tableData.value = [...tableData.value];
 };
 
 // 获取当前列索引
@@ -121,12 +123,6 @@ const updateSelectionAndEmit = (rowIndex, key) => {
 		rowEndIndex: safeIndex,
 	});
 
-	const column = getCurrentColumn();
-	emit('handleKeyDownEnter', {
-		rowKey: safeIndex,
-		column,
-		key,
-	});
 };
 
 // 处理键盘导航
@@ -212,7 +208,6 @@ const handleKeyboardNavigation = (key, event) => {
 };
 
 function cellKeydown(e, params) {
-  console.log(e)
 	if (isNavigationKey(e.key)) {
 		// 更新当前单元格位置
 		currentRowkey.value = params.cellPosition.rowIndex;
@@ -232,8 +227,8 @@ const openEdit = rowKey => {
 			rowKey: safeRowKey,
 		},
 	]);
-	selectAllContent();
 };
+
 
 </script>
 

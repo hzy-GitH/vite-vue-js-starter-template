@@ -1,13 +1,7 @@
 <template>
-  <s-table ref="tableRef" rowKey="rowKey" :data-source="tableData" :columns="columns" :scroll="{ y: 600 }" autoHeaderHeight xVirtual
+ <s-table ref="tableRef" rowKey="rowKey" :data-source="tableData" :columns="columns" :scroll="{ y: 600 }" autoHeaderHeight xVirtual
     :rangeSelection="true" :pagination="false" ignoreCellKey bordered :animateRows="false" :showSorterTooltip="false"
     summary-fixed @cellClick="handleRowClick"	@cellKeydown="cellKeydown">
-    <template #headerCell="{ title, column }">
-      <div>{{ title }}</div>
-      <Input v-if="column.dataIndex === 'id'" v-model:value="query.id" placeholder="" />
-      <el-input v-if="column.dataIndex === 'age'" v-model="query.age" placeholder="" clearable />
-
-    </template>
   </s-table>
 </template>
 
@@ -34,11 +28,12 @@ for(let i = 0; i < 1000; i++) {
   columns.value.push({
     title: 'title' + i,
     dataIndex: 'id'+ i,
+	key: 'id'+ i,
     align: "center",
     ellipsis: true,
     resizable: true,
     width: 200,
-	editable:true,
+	editable:false,
     editableTrigger: 'click',
   })
 }
@@ -68,13 +63,13 @@ const handleRowClick = (event, params) => {
 const getCurrentColumnIndex = () => {
 	const columnKey = currentColumn.value?.dataIndex || activeKey.value;
 	if (!columnKey) return -1;
-	return columns.findIndex(i => i.dataIndex === columnKey);
+	return columns.value.findIndex(i => i.dataIndex === columnKey);
 };
 
 // 获取当前列对象
 const getCurrentColumn = () => {
-	const index = columns.findIndex(i => i.dataIndex === activeKey.value);
-	return index >= 0 ? columns[index] : null;
+	const index = columns.value.findIndex(i => i.dataIndex === activeKey.value);
+	return index >= 0 ? columns.value[index] : null;
 };
 
 // 更新选中范围和触发事件
@@ -103,7 +98,7 @@ const handleKeyboardNavigation = (key, event) => {
 	if (!isNavigationKey(key)) return;
 
 	const maxRowIndex = tableData.value.length - 1;
-	const maxColIndex = columns.length - 1;
+	const maxColIndex = columns.value.length - 1;
 	const currentRowIndex = Number.isInteger(currentRowkey.value) ? currentRowkey.value : -1;
 	const currentColumnValue = currentColumn.value || getCurrentColumn();
 
@@ -124,7 +119,7 @@ const handleKeyboardNavigation = (key, event) => {
 			const colIndex = getCurrentColumnIndex();
 			if (colIndex < 0) return;
 			const newColIndex = Math.max(0, colIndex - 1);
-			newColumn = columns[newColIndex];
+			newColumn = columns.value[newColIndex];
 			nextActiveKey = newColumn?.dataIndex || '';
 			break;
 		}
@@ -132,7 +127,7 @@ const handleKeyboardNavigation = (key, event) => {
 			const colIndex = getCurrentColumnIndex();
 			if (colIndex < 0) return;
 			const newColIndex = Math.min(maxColIndex, colIndex + 1);
-			newColumn = columns[newColIndex];
+			newColumn = columns.value[newColIndex];
 			nextActiveKey = newColumn?.dataIndex || '';
 			break;
 		}
@@ -176,8 +171,8 @@ const handleKeyboardNavigation = (key, event) => {
 	updateSelectionAndEmit(newRowIndex, key);
 	tableRef.value?.ensureRowVisible(newRowIndex);
 	
-	if (newColumn.dataIndex === columns[columns.length - 2].dataIndex) {
-		tableRef.value.scrollTo({ columnIndex: columns.length - 1 });
+	if (newColumn.dataIndex === columns.value[columns.value.length - 2].dataIndex) {
+		tableRef.value.scrollTo({ columnIndex: columns.value.length - 1 });
 	}
 };
 
@@ -206,4 +201,9 @@ const openEdit = rowKey => {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.surely-table-wrapper {
+	width:100%;
+	max-width:1000px !important;
+}
+</style>

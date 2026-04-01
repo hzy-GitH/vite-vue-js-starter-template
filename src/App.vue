@@ -21,44 +21,7 @@ const query = ref({
   age: '',
 })
 
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    align: "center",
-    ellipsis: true,
-    resizable: true,
-    width: 200,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-    align: "center",
-    ellipsis: true,
-    resizable: true,
-    width: 200,
-    editable:true,
-    editableTrigger: 'click',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    align: "center",
-    ellipsis: true,
-    resizable: true,
-    width: 500,
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    align: "center",
-    ellipsis: true,
-    resizable: true,
-    width: 500,
-  }
-]
-
+const columns =  ref([])
 const tableData = ref([])
 for(let i = 0; i < 1000; i++) {
   tableData.value.push({
@@ -67,6 +30,16 @@ for(let i = 0; i < 1000; i++) {
     age: i,
     address: '',
     name: '',
+  })
+  columns.value.push({
+    title: 'title' + i,
+    dataIndex: 'id'+ i,
+    align: "center",
+    ellipsis: true,
+    resizable: true,
+    width: 200,
+	editable:true,
+    editableTrigger: 'click',
   })
 }
 
@@ -201,7 +174,8 @@ const handleKeyboardNavigation = (key, event) => {
 	currentColumn.value = newColumn;
 
 	updateSelectionAndEmit(newRowIndex, key);
-
+	tableRef.value?.ensureRowVisible(newRowIndex);
+	
 	if (newColumn.dataIndex === columns[columns.length - 2].dataIndex) {
 		tableRef.value.scrollTo({ columnIndex: columns.length - 1 });
 	}

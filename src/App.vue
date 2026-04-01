@@ -33,7 +33,7 @@ for(let i = 0; i < 1000; i++) {
     ellipsis: true,
     resizable: true,
     width: 200,
-	editable:false,
+	editable:true,
     editableTrigger: 'click',
   })
 }

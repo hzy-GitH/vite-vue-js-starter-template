@@ -28,7 +28,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@surely-vue/table": "^5.0.16",
+    "@surely-vue/table": "5.1.4",
     "@vueuse/core": "^13.3.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.9.0",

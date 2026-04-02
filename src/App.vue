@@ -170,6 +170,7 @@ const handleKeyboardNavigation = (key, event) => {
 
 	updateSelectionAndEmit(newRowIndex, key);
 	tableRef.value?.ensureRowVisible(newRowIndex);
+	tableRef.value?.ensureColumnVisible(activeKey.value);
 	
 	if (newColumn.dataIndex === columns.value[columns.value.length - 2].dataIndex) {
 		tableRef.value.scrollTo({ columnIndex: columns.value.length - 1 });
